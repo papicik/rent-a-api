@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { webpack }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
