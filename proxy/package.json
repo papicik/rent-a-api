@@ -1,0 +1,23 @@
+{
+  "name": "rent-a-api-proxy-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fastify High-Performance Reverse Proxy for Rent-A-API",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.19",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,251 @@
+export const RENT_TOKEN_ABI = [
+  {
+    type: 'function',
+    name: 'balanceOf',
+    stateMutability: 'view',
+    inputs: [{ name: 'account', type: 'address' }],
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'allowance',
+    stateMutability: 'view',
+    inputs: [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+    ],
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'approve',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'spender', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'bool' }],
+  },
+  {
+    type: 'function',
+    name: 'decimals',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint8' }],
+  },
+  {
+    type: 'function',
+    name: 'symbol',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'string' }],
+  },
+] as const;
+
+export const MARKETPLACE_ABI = [
+  {
+    type: 'function',
+    name: 'rent',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'slotId', type: 'bytes32' },
+      { name: 'rentalDate', type: 'uint256' },
+      { name: 'tokenAmount', type: 'uint256' },
+      { name: 'provider', type: 'address' },
+    ],
+    outputs: [{ name: 'rentalId', type: 'bytes32' }],
+  },
+  {
+    type: 'function',
+    name: 'release',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'rentalId', type: 'bytes32' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
+    name: 'refund',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'rentalId', type: 'bytes32' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
+    name: 'getRental',
+    stateMutability: 'view',
+    inputs: [{ name: 'rentalId', type: 'bytes32' }],
+    outputs: [
+      {
+        type: 'tuple',
+        name: '',
+        components: [
+          { name: 'slotId', type: 'bytes32' },
+          { name: 'rentalDate', type: 'uint256' },
+          { name: 'renter', type: 'address' },
+          { name: 'provider', type: 'address' },
+          { name: 'amount', type: 'uint256' },
+          { name: 'status', type: 'uint8' },
+          { name: 'createdAt', type: 'uint256' },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'function',
+    name: 'isSlotDateLocked',
+    stateMutability: 'view',
+    inputs: [
+      { name: 'slotId', type: 'bytes32' },
+      { name: 'rentalDate', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'bool' }],
+  },
+  {
+    type: 'event',
+    name: 'Rented',
+    inputs: [
+      { name: 'rentalId', type: 'bytes32', indexed: true },
+      { name: 'slotId', type: 'bytes32', indexed: true },
+      { name: 'rentalDate', type: 'uint256', indexed: true },
+      { name: 'renter', type: 'address', indexed: false },
+      { name: 'provider', type: 'address', indexed: false },
+      { name: 'amount', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'Released',
+    inputs: [
+      { name: 'rentalId', type: 'bytes32', indexed: true },
+      { name: 'provider', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+      { name: 'releasedBy', type: 'address', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'Refunded',
+    inputs: [
+      { name: 'rentalId', type: 'bytes32', indexed: true },
+      { name: 'renter', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+      { name: 'refundedBy', type: 'address', indexed: false },
+    ],
+  },
+] as const;
+
+export const API_ESCROW_ABI = [
+  {
+    type: 'function',
+    name: 'createRental',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'slotId', type: 'string' },
+      { name: 'provider', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+      { name: 'duration', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'releaseFunds',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'rentalId', type: 'uint256' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
+    name: 'refundRental',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'rentalId', type: 'uint256' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
+    name: 'setBackendSigner',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: '_newSigner', type: 'address' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
+    name: 'rentalCounter',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'rentals',
+    stateMutability: 'view',
+    inputs: [{ name: '', type: 'uint256' }],
+    outputs: [
+      { name: 'id', type: 'uint256' },
+      { name: 'slotId', type: 'string' },
+      { name: 'renter', type: 'address' },
+      { name: 'provider', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+      { name: 'startTime', type: 'uint256' },
+      { name: 'duration', type: 'uint256' },
+      { name: 'status', type: 'uint8' },
+    ],
+  },
+  {
+    type: 'function',
+    name: 'activeSlotRental',
+    stateMutability: 'view',
+    inputs: [{ name: '', type: 'string' }],
+    outputs: [{ name: '', type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'backendSigner',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'address' }],
+  },
+  {
+    type: 'function',
+    name: 'rentToken',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'address' }],
+  },
+  {
+    type: 'event',
+    name: 'RentalCreated',
+    inputs: [
+      { name: 'rentalId', type: 'uint256', indexed: true },
+      { name: 'slotId', type: 'string', indexed: false },
+      { name: 'renter', type: 'address', indexed: true },
+      { name: 'provider', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+      { name: 'startTime', type: 'uint256', indexed: false },
+      { name: 'duration', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'FundsReleased',
+    inputs: [
+      { name: 'rentalId', type: 'uint256', indexed: true },
+      { name: 'provider', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'FundsRefunded',
+    inputs: [
+      { name: 'rentalId', type: 'uint256', indexed: true },
+      { name: 'renter', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'SignerUpdated',
+    inputs: [{ name: 'newSigner', type: 'address', indexed: false }],
+  },
+] as const;

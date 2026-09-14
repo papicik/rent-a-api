@@ -1,0 +1,120 @@
+// Prisma Schema for Rent-A-API (P2P AI API Rental Marketplace)
+// Robinhood Chain (Arbitrum EVM L2) - 0% Commission - UTC Daily Lock
+// Idle Credit Model (65% cheaper than official API, 60% hard cap)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UnitType {
+  TOKEN
+  MINUTE
+  IMAGE
+  REQUEST
+}
+
+enum RentalStatus {
+  PENDING   // Escrow locking or payment verification in progress
+  ACTIVE    // Locked and active for the UTC day, proxyToken usable
+  COMPLETED // Provider released funds, rental period concluded
+  RELEASED  // On-chain escrow released
+  REFUNDED  // Refunded back to renter (API failure / non-delivery)
+}
+
+model Provider {
+  id            String   @id @default(cuid())
+  walletAddress String   @unique // 0x EVM lowercase address
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  slots         Slot[]
+
+  @@index([walletAddress])
+  @@map("providers")
+}
+
+model Slot {
+  id                     String   @id @default(cuid())
+  providerId             String
+  provider               Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  modelType              String   // Model ID (e.g. claude-sonnet-4, gpt-4o, whisper-v3)
+  apiType                String?  // Upstream API Type (e.g. CLAUDE_3_5_SONNET, GPT_4O, DEEPSEEK_V3, GEMINI_1_5_PRO)
+  modelName              String   // Display name
+  unitType               UnitType @default(TOKEN)
+  referenceUnit          Float    // Reference size (e.g. 1,000,000 for tokens, 1,000 for requests, 1 for image/minute)
+  officialCostUsd        Float    // Official provider list cost per reference unit
+  dailyQuota             Float    // Daily quota allocated for rental
+  consumedTokens         Float    @default(0) // Accumulated token consumption
+  usedPercentage         Float    @default(0) // Percentage of daily quota consumed (0-100+)
+  remainingCredit        Float    // Remaining provider credit in their account
+  suggestedDailyPriceUsd Float    // 65% discounted suggested daily rental price
+
+  // AES-256-GCM Encrypted Credentials
+  encryptedApiKey        String   // Hex ciphertext
+  iv                     String   // 96-bit (12-byte) IV in Hex
+  authTag                String   // 128-bit (16-byte) Auth Tag in Hex
+  maskedKeySnippet       String   // e.g. "sk-ant-...89ab" (Client-safe)
+
+  isActive               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  rentals                Rental[]
+
+  @@index([providerId])
+  @@index([modelType, isActive])
+  @@map("slots")
+}
+
+model Rental {
+  id              String       @id @default(cuid())
+  slotId          String
+  slot            Slot         @relation(fields: [slotId], references: [id], onDelete: Restrict)
+
+  renterWallet    String       // 0x EVM lowercase address
+  rentalDate      String       // UTC calendar day string: "YYYY-MM-DD"
+  leaseDate       String?      // UTC calendar lease date
+  priceUsd        Float        // Final daily price in USD
+  rentTokenAmount Float        // Converted RENT token amount via TWAP oracle
+
+  status          RentalStatus @default(PENDING)
+  proxyToken      String       @unique // "rap_live_..." bearer token for reverse proxy
+  txHash          String?      // Robinhood chain escrow tx hash
+  onChainRentalId Int?         // On-chain rental ID from ApiEscrow contract
+
+  usedQuota       Float        @default(0)
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  usageLogs       UsageLog[]
+
+  // CRITICAL CONSTRAINT: Single Lock per UTC Day per Slot
+  @@unique([slotId, rentalDate], name: "slot_daily_unique_lock")
+  @@unique([slotId, leaseDate], name: "slot_lease_date_unique_lock")
+  @@index([renterWallet])
+  @@index([proxyToken])
+  @@index([rentalDate, status])
+  @@map("rentals")
+}
+
+model UsageLog {
+  id           String   @id @default(cuid())
+  rentalId     String
+  rental       Rental   @relation(fields: [rentalId], references: [id], onDelete: Cascade)
+
+  timestamp    DateTime @default(now())
+  requestCount Int      @default(1)
+  tokenCount   Float    @default(0)
+  ipHash       String?  // Anonymized hash for telemetry
+
+  @@index([rentalId])
+  @@index([timestamp])
+  @@map("usage_logs")
+}

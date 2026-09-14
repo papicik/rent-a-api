@@ -1,0 +1,42 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+/coverage
+
+# Next.js build output
+/.next/
+/out/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Hardhat & contracts
+/artifacts_hardhat/
+/cache_hardhat/
+/typechain-types/
+
+# Proxy dependencies
+proxy/node_modules/
+proxy/dist/
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Sensitive environment variables & secrets (CRITICAL)
+.env
+.env*.local
+.env.production
+.env.staging
+
+# Prisma
+/prisma/*.db
+/prisma/*.sqlite

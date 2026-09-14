@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #0D1117;
+  --surface: #FFFFFF;
+  --surface-elevated: #F8FAFC;
+  --border: #E5E7EB;
+  --border-subtle: #E2E8F0;
+  --rh-green: #CDFF00;
+  --rh-green-hover: #BCE600;
+  --rh-red: #FF5000;
+  --muted-gray: #64748B;
+}
+
+body {
+  color: var(--foreground);
+  background-color: #FFFFFF;
+  min-height: 100vh;
+  letter-spacing: -0.015em;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Robinhood Green Text Selection */
+::selection {
+  background-color: rgba(205, 255, 0, 0.4);
+  color: #000000;
+}
+
+/* Robinhood Focus Outline */
+:focus-visible {
+  outline: 2px solid #CDFF00;
+  outline-offset: 2px;
+}
+
+/* Glassmorphism & Financial Card utilities */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #E5E7EB;
+}
+
+.glass-panel-hover:hover {
+  border-color: #CDFF00;
+  box-shadow: 0 10px 30px -10px rgba(205, 255, 0, 0.25);
+}
+
+/* Robinhood Glow Accents */
+.rh-glow-green {
+  box-shadow: 0 0 20px -3px rgba(205, 255, 0, 0.4);
+}
+
+.rh-glow-red {
+  box-shadow: 0 0 20px -3px rgba(255, 80, 0, 0.25);
+}
+
+/* Custom Robinhood Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E5E7EB;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CBD5E1;
+}
+
+/* ==========================================================================
+   RainbowKit - Robinhood Signature Electric Green Connect Button (#CDFF00)
+   ========================================================================== */
+[data-rk] {
+  --rk-colors-accentColor: #CDFF00 !important;
+  --rk-colors-accentColorForeground: #000000 !important;
+  --rk-colors-connectButtonBackground: #CDFF00 !important;
+  --rk-colors-connectButtonText: #000000 !important;
+  --rk-colors-connectButtonInnerBackground: #CDFF00 !important;
+  --rk-radii-connectButton: 9999px !important;
+  --rk-radii-actionButton: 9999px !important;
+}
+
+/* Connect Wallet Button */
+[data-rk] button[data-testid="rk-connect-button"],
+button[data-testid="rk-connect-button"],
+.rk-connect-btn button,
+.rk-connect-container button {
+  background-color: #CDFF00 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 16px -3px rgba(205, 255, 0, 0.5) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+}
+
+[data-rk] button[data-testid="rk-connect-button"]:hover,
+button[data-testid="rk-connect-button"]:hover,
+.rk-connect-btn button:hover,
+.rk-connect-container button:hover {
+  background-color: #BCE600 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(205, 255, 0, 0.6) !important;
+}
+
+[data-rk] button[data-testid="rk-connect-button"]:active,
+button[data-testid="rk-connect-button"]:active,
+.rk-connect-btn button:active,
+.rk-connect-container button:active {
+  transform: translateY(0);
+}
+
