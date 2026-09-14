@@ -49,7 +49,6 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
           locale="en-US"
-          initialChain={robinhoodChain}
           theme={robinhoodTheme}
         >
           {children}
