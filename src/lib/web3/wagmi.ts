@@ -32,7 +32,7 @@ export const supportedChains = [
 ] as const;
 
 export const wagmiConfig = getDefaultConfig({
-  appName: 'RENT-a-API',
+  appName: 'RENT-an-API',
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'c4b0f92b7408849b294e5f2cf2996253',
   chains: supportedChains,
   wallets: [

@@ -19,14 +19,14 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#E5E7EB] bg-white/90 backdrop-blur-xl transition-all font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-        {/* Left: Brand Robinhood Leaf/Key Icon and "RENT a API" */}
+        {/* Left: Brand Robinhood Leaf/Key Icon and "RENT an API" */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-full bg-[#CDFF00]/10 border border-[#CDFF00]/30 flex items-center justify-center text-[#CDFF00] group-hover:border-[#CDFF00] group-hover:bg-[#CDFF00]/20 transition-all shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.25)]">
               <Key className="w-5 h-5 text-[#CDFF00]" />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-[#0D1117] group-hover:text-[#CDFF00] transition-colors">
-              RENT a API
+              RENT an API
             </span>
           </Link>
 

@@ -17,10 +17,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'RENT a API | Decentralized AI Compute Marketplace',
+  title: 'RENT an API | Decentralized AI Compute Marketplace',
   description: 'Monetize idle enterprise AI API keys or rent dedicated 24H single-tenant capacity far below official rates. Powered by Robinhood Chain L2.',
   keywords: [
-    'RENT a API',
+    'RENT an API',
     'Robinhood Crypto',
     'AI API Rental',
     'P2P Marketplace',

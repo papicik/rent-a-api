@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, Server } from 'lucide-react';
+import { ArrowRight, Lock, Server, Copy, Check } from 'lucide-react';
+import { CONTRACT_ADDRESSES } from '@/lib/constants';
 
 interface HeroProps {
   availableSlots?: number;
@@ -14,6 +15,19 @@ export function Hero({
   availableSlots = 12,
   lockedToday = 4,
 }: HeroProps) {
+  const [copied, setCopied] = useState(false);
+  const rentTokenAddress = CONTRACT_ADDRESSES.RENT_TOKEN;
+
+  const handleCopyCa = async () => {
+    try {
+      await navigator.clipboard.writeText(rentTokenAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // clipboard fallback
+    }
+  };
+
   return (
     <section className="relative rounded-3xl p-8 sm:p-14 overflow-hidden border border-[#E5E7EB] bg-white backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.04)] font-sans">
       {/* Subtle Robinhood Ambient Lighting */}
@@ -22,17 +36,17 @@ export function Hero({
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-12">
         {/* Left: Main Content */}
         <div className="max-w-3xl space-y-6">
-          {/* Main Headline with Robinhood Green highlight */}
+          {/* Main Headline with Robinhood Green highlight without background clipping */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0D1117] leading-[1.12]">
             Stop Wasting Paid API Quotas.{' '}
-            <span className="text-[#CDFF00] bg-white">
+            <span className="text-[#75A300]">
               Turn Idle Keys Into Passive $RENT.
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-2xl font-normal tracking-tight">
-            Millions of enterprise AI credits expire unused every month. RENT a API unlocks that trapped compute: Key holders earn automated income, while builders rent dedicated daily access up to 50% below retail.
+            Millions of enterprise AI credits expire unused every month. RENT an API unlocks that trapped compute: Key holders earn automated income, while builders rent dedicated daily access up to 50% below retail.
           </p>
 
           {/* CTAs - Signature Capsule Pills */}
@@ -51,6 +65,32 @@ export function Hero({
             >
               <span>Start Earning</span>
             </Link>
+          </div>
+
+          {/* Token CA (Contract Address) Cell */}
+          <div className="pt-2">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CBD5E1] text-xs font-mono transition-all shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#CDFF00] animate-pulse" />
+              <span className="text-[#64748B] font-semibold font-sans uppercase tracking-wider text-[11px]">$RENT CA:</span>
+              <span className="text-[#0D1117] font-bold tracking-tight select-all">
+                {rentTokenAddress}
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyCa}
+                title="Copy Token CA"
+                className="p-1 rounded-lg hover:bg-[#E5E7EB] text-[#64748B] hover:text-[#0D1117] transition-colors cursor-pointer flex items-center gap-1 ml-1"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-[#75A300]" />
+                    <span className="text-[10px] text-[#75A300] font-sans font-bold">Copied!</span>
+                  </>
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
 

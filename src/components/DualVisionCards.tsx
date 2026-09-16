@@ -12,7 +12,7 @@ export function DualVisionCards() {
           Built For Both Sides of the Compute Economy
         </span>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D1117] tracking-tight">
-          Two Ways to Win with RENT a API
+          Two Ways to Win with RENT an API
         </h2>
         <p className="text-xs sm:text-sm text-[#64748B] max-w-lg mx-auto">
           Whether you hold unused enterprise tiers or need high-throughput inference at discount rates.

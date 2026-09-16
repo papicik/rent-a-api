@@ -86,7 +86,7 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0D1117] tracking-tight leading-snug">
               Idle capacity on one side. Overpriced APIs on the other.{' '}
-              <span className="text-[#CDFF00] bg-white">
+              <span className="text-[#75A300]">
                 We just connected them.
               </span>
             </h2>
@@ -109,7 +109,7 @@ export default function HomePage() {
         {/* Clean Footer */}
         <footer className="border-t border-[#E5E7EB] pt-8 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
           <div>
-            <span>RENT a API • Robinhood Chain (Arbitrum L2 EVM) • 0% Platform Fee</span>
+            <span>RENT an API • Robinhood Chain (Arbitrum L2 EVM) • 0% Platform Fee</span>
           </div>
           <div className="flex items-center gap-6">
             <Link href="/marketplace" className="hover:text-[#0D1117] transition-colors">
