@@ -51,7 +51,7 @@ export function Navbar() {
           </nav>
         </div>
 
-        {/* Right: Wallet ConnectButton */}
+        {/* Right: Wallet ConnectButton & Circular Logo */}
         <div className="flex items-center gap-3">
           <div className="rk-connect-container [&_button]:!rounded-full">
             <ConnectButton
@@ -61,6 +61,15 @@ export function Navbar() {
                 smallScreen: 'avatar',
                 largeScreen: 'full',
               }}
+            />
+          </div>
+
+          {/* Circular Brand Logo */}
+          <div className="w-10 h-10 rounded-full overflow-hidden border border-[#CDFF00]/50 shadow-[0_0_15px_-2px_rgba(205,255,0,0.35)] flex-shrink-0 flex items-center justify-center bg-[#CDFF00] transition-transform hover:scale-105">
+            <img
+              src="/logo.png"
+              alt="Brand Logo"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
