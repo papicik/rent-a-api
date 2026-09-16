@@ -64,8 +64,10 @@ const SEED_SLOTS: Array<{
 ];
 
 export async function ensureDatabaseSeeded(): Promise<void> {
-  const count = await prisma.slot.count();
-  if (count > 0) return;
+  if (!process.env.DATABASE_URL || process.env.DATABASE_URL.trim().length === 0) return;
+  try {
+    const count = await prisma.slot.count();
+    if (count > 0) return;
 
   for (const item of SEED_SLOTS) {
     const catalog = MODEL_CATALOG[item.modelType];
@@ -98,5 +100,8 @@ export async function ensureDatabaseSeeded(): Promise<void> {
         isActive: true,
       },
     });
+  }
+  } catch {
+    // Non-fatal if database is unavailable
   }
 }
