@@ -466,8 +466,8 @@ export default function RentSlotPage() {
                           <Key className="w-4 h-4 text-black" />
                           <span>
                             {!allowance || allowance < parseEther(slot.finalDailyPriceRent.toString())
-                              ? 'Approve $RENT & Rent 24H Slot'
-                              : 'Rent 24H Slot'}
+                              ? 'Approve $RENT & Rent'
+                              : 'RENT'}
                           </span>
                         </>
                       )}

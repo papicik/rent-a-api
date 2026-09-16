@@ -137,9 +137,9 @@ export function SlotCard({ slot }: SlotCardProps) {
         ) : (
           <Link
             href={`/rent/${slot.id}`}
-            className="w-full py-3 rounded-full bg-[#CDFF00] hover:bg-[#BCE600] text-black text-xs font-bold tracking-tight transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.35)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            className="w-full py-3 rounded-full bg-[#CDFF00] hover:bg-[#BCE600] text-black text-xs font-bold tracking-tight transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.35)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase"
           >
-            <span>Rent 24H Slot</span>
+            <span>RENT</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         )}
