@@ -17,6 +17,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+import { detectModelFromApiKey } from '@/lib/constants';
+
 interface ListApiModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,6 +31,7 @@ export function ListApiModal({ isOpen, onClose, onSuccess }: ListApiModalProps) 
   const [modelType, setModelType] = useState<ModelId>('claude-sonnet-4');
   const [apiKey, setApiKey] = useState('');
   const [showApiKey, setShowApiKey] = useState(false);
+  const [detectedProvider, setDetectedProvider] = useState<string | null>(null);
 
   // Live Real-Time Estimator Controls
   const [usedPercentage, setUsedPercentage] = useState<number>(0); // 0% to 90%
@@ -222,8 +225,18 @@ export function ListApiModal({ isOpen, onClose, onSuccess }: ListApiModalProps) 
               <input
                 type={showApiKey ? 'text' : 'password'}
                 value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder={`Paste your ${currentModel.name} key (sk-...)`}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setApiKey(val);
+                  const detected = detectModelFromApiKey(val);
+                  if (detected) {
+                    setModelType(detected.modelId);
+                    setDetectedProvider(detected.label);
+                  } else {
+                    setDetectedProvider(null);
+                  }
+                }}
+                placeholder="Paste your API key (AQ..., AIza..., sk-ant-..., sk-...)"
                 className="w-full px-4 py-3 rounded-2xl bg-white border border-[#E5E7EB] text-[#0D1117] font-mono text-sm pr-11 focus:outline-none focus:border-[#CDFF00] transition-colors shadow-sm"
               />
               <button
@@ -234,6 +247,12 @@ export function ListApiModal({ isOpen, onClose, onSuccess }: ListApiModalProps) 
                 {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
+            {detectedProvider && (
+              <div className="flex items-center gap-1.5 p-2 rounded-xl bg-[#CDFF00]/15 border border-[#CDFF00]/40 text-xs text-[#0D1117]">
+                <Sparkles className="w-3.5 h-3.5 text-[#759e00]" />
+                <span>Detected: <strong>{detectedProvider}</strong> → Selected <strong>{currentModel.name}</strong></span>
+              </div>
+            )}
             <p className="text-[11px] text-[#64748B] font-mono">
               Keys are encrypted with AES-256-GCM and never displayed in cleartext or returned to clients.
             </p>

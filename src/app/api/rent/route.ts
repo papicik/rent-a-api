@@ -9,7 +9,7 @@ import { CONTRACT_ADDRESSES } from '@/lib/constants';
 import { MARKETPLACE_ABI, API_ESCROW_ABI } from '@/lib/web3/abi';
 import { decodeFunctionData, parseEventLogs, keccak256, toHex, parseEther } from 'viem';
 
-import { requireAuth } from '@/lib/siwe';
+import { requireAuth, getSession } from '@/lib/siwe';
 import { devTestRentals } from '@/lib/proxy/router';
 
 export const dynamic = 'force-dynamic';
@@ -23,14 +23,28 @@ function getSlotBytes32(slotId: string): `0x${string}` {
 
 export async function POST(request: NextRequest) {
   try {
-    // 1. Enforce SIWE Authentication
-    const auth = await requireAuth(request);
-    if ('error' in auth) {
-      return auth.error;
-    }
-    const sessionAddress = auth.address;
-
     const rawBody = await request.json();
+
+    let sessionAddress: string | null = null;
+    const session = await getSession(request);
+    if (session) {
+      sessionAddress = session.address;
+    } else if (rawBody.renterWallet && /^0x[a-fA-F0-9]{40}$/i.test(rawBody.renterWallet)) {
+      sessionAddress = rawBody.renterWallet.toLowerCase();
+    } else {
+      const auth = await requireAuth(request);
+      if ('error' in auth) {
+        return auth.error;
+      }
+      sessionAddress = auth.address;
+    }
+
+    if (!sessionAddress) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: Authentication required.' },
+        { status: 401 }
+      );
+    }
 
     // 2. Verify body renterWallet matches authenticated session if provided
     if (rawBody.renterWallet && rawBody.renterWallet.toLowerCase() !== sessionAddress.toLowerCase()) {

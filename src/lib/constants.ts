@@ -231,3 +231,41 @@ export const CONTRACT_ADDRESSES = {
   API_ESCROW: (process.env.NEXT_PUBLIC_API_ESCROW_ADDRESS || process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS || '0x5555555555555555555555555555555555555555') as `0x${string}`,
   UNISWAP_V4_POOL: (process.env.NEXT_PUBLIC_UNISWAP_V4_POOL || '0x6666666666666666666666666666666666666666') as `0x${string}`,
 };
+
+export function detectModelFromApiKey(key: string): { modelId: ModelId; label: string } | null {
+  const trimmed = key.trim();
+  if (!trimmed || trimmed.length < 3) return null;
+
+  // Google Gemini: AQ. (Google AI Studio new format) or AIza (standard Google format)
+  if (trimmed.startsWith('AQ.') || trimmed.startsWith('AIza')) {
+    return { modelId: 'gemini-2-5-pro', label: 'Google Gemini (AI Studio)' };
+  }
+
+  // Anthropic Claude: sk-ant-
+  if (trimmed.startsWith('sk-ant-')) {
+    return { modelId: 'claude-sonnet-4', label: 'Anthropic Claude' };
+  }
+
+  // DeepSeek: sk-ds-
+  if (trimmed.startsWith('sk-ds-')) {
+    return { modelId: 'deepseek-v3', label: 'DeepSeek' };
+  }
+
+  // OpenAI: sk-proj- or standard sk-
+  if (trimmed.startsWith('sk-proj-') || trimmed.startsWith('sk-')) {
+    return { modelId: 'gpt-4o', label: 'OpenAI (GPT-4o)' };
+  }
+
+  // Residential Proxy
+  if (
+    trimmed.startsWith('http://') ||
+    trimmed.startsWith('https://') ||
+    trimmed.startsWith('socks5://') ||
+    trimmed.startsWith('sec_proxy')
+  ) {
+    return { modelId: 'residential-proxy', label: 'Residential Proxy' };
+  }
+
+  return null;
+}
+

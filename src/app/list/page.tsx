@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Navbar } from '@/components/Navbar';
-import { MODEL_CATALOG, DEFAULT_DAILY_QUOTA } from '@/lib/constants';
+import { MODEL_CATALOG, DEFAULT_DAILY_QUOTA, detectModelFromApiKey } from '@/lib/constants';
 import { ModelId } from '@/lib/types';
 import { calculateIdleKeyPrice, formatQuota, formatUsd, formatRentToken } from '@/lib/pricing';
 import { maskApiKey } from '@/lib/crypto';
-import { ShieldCheck, Eye, EyeOff, Lock, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { ShieldCheck, Eye, EyeOff, Lock, CheckCircle2, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 
 export default function ListApiPage() {
   const router = useRouter();
@@ -18,6 +18,7 @@ export default function ListApiPage() {
   const [modelType, setModelType] = useState<ModelId>('claude-sonnet-4');
   const [apiKey, setApiKey] = useState('');
   const [showApiKey, setShowApiKey] = useState(false);
+  const [detectedProvider, setDetectedProvider] = useState<string | null>(null);
 
   const currentModel = MODEL_CATALOG[modelType];
   const dailyQuota = DEFAULT_DAILY_QUOTA[modelType] || currentModel.defaultDailyQuota;
@@ -31,6 +32,17 @@ export default function ListApiPage() {
     dailyQuota,
     dailyQuota
   );
+
+  const handleApiKeyChange = (val: string) => {
+    setApiKey(val);
+    const detected = detectModelFromApiKey(val);
+    if (detected) {
+      setModelType(detected.modelId);
+      setDetectedProvider(detected.label);
+    } else {
+      setDetectedProvider(null);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +75,7 @@ export default function ListApiPage() {
       if (data.success) {
         setSuccessMsg('Slot successfully encrypted and listed on marketplace!');
         setApiKey('');
+        setDetectedProvider(null);
         setTimeout(() => {
           router.push('/marketplace');
         }, 1500);
@@ -113,9 +126,17 @@ export default function ListApiPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Model Catalog Selection */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
-                Select AI Model (12 Verified Models)
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
+                  Select AI Model (12 Verified Models)
+                </label>
+                {detectedProvider && (
+                  <span className="text-[11px] font-semibold text-[#658c00] flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    Auto-selected {currentModel.name}
+                  </span>
+                )}
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-80 overflow-y-auto pr-1">
                 {(Object.keys(MODEL_CATALOG) as ModelId[]).map((id) => {
                   const m = MODEL_CATALOG[id];
@@ -124,10 +145,13 @@ export default function ListApiPage() {
                     <button
                       key={id}
                       type="button"
-                      onClick={() => setModelType(id)}
+                      onClick={() => {
+                        setModelType(id);
+                        setDetectedProvider(null);
+                      }}
                       className={`p-3.5 rounded-2xl text-left border transition-all cursor-pointer ${
                         isSelected
-                          ? 'border-[#CDFF00] bg-[#CDFF00]/10 shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.25)]'
+                          ? 'border-[#CDFF00] bg-[#CDFF00]/10 shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.25)] ring-1 ring-[#CDFF00]'
                           : 'border-[#E5E7EB] bg-white hover:border-[#CBD5E1] hover:bg-[#F8FAFC] shadow-sm'
                       }`}
                     >
@@ -164,8 +188,8 @@ export default function ListApiPage() {
                 <input
                   type={showApiKey ? 'text' : 'password'}
                   value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  placeholder="sk-ant-... / sk-proj-... / AIzaSy..."
+                  onChange={(e) => handleApiKeyChange(e.target.value)}
+                  placeholder="Paste your API key (e.g. AQ..., AIzaSy..., sk-ant-..., sk-proj-...)"
                   className="w-full pl-4 pr-11 py-3 rounded-2xl bg-white border border-[#E5E7EB] text-[#0D1117] text-xs sm:text-sm font-mono focus:outline-none focus:border-[#CDFF00] transition-colors shadow-sm"
                 />
                 <button
@@ -176,6 +200,15 @@ export default function ListApiPage() {
                   {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
+              {detectedProvider && (
+                <div className="flex items-center gap-2 p-2.5 rounded-2xl bg-[#CDFF00]/15 border border-[#CDFF00]/40 text-xs text-[#0D1117] font-medium transition-all">
+                  <Sparkles className="w-4 h-4 text-[#759e00] shrink-0" />
+                  <span>
+                    Detected provider: <strong>{detectedProvider}</strong>. Automatically selected <strong>{currentModel.name}</strong>!
+                  </span>
+                </div>
+              )}
 
               {apiKey && (
                 <div className="text-[11px] font-mono text-[#64748B] flex items-center gap-2 pt-1">

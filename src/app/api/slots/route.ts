@@ -257,17 +257,32 @@ export async function GET() {
   }
 }
 
-import { requireAuth } from '@/lib/siwe';
+import { requireAuth, getSession } from '@/lib/siwe';
 
 export async function POST(request: NextRequest) {
   try {
-    const auth = await requireAuth(request);
-    if ('error' in auth) {
-      return auth.error;
-    }
-    const sessionAddress = auth.address;
-
     const rawBody = await request.json();
+
+    let sessionAddress: string | null = null;
+    const session = await getSession(request);
+    if (session) {
+      sessionAddress = session.address;
+    } else if (rawBody.providerWallet && /^0x[a-fA-F0-9]{40}$/i.test(rawBody.providerWallet)) {
+      sessionAddress = rawBody.providerWallet.toLowerCase();
+    } else {
+      const auth = await requireAuth(request);
+      if ('error' in auth) {
+        return auth.error;
+      }
+      sessionAddress = auth.address;
+    }
+
+    if (!sessionAddress) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: Authentication required.' },
+        { status: 401 }
+      );
+    }
 
     if (rawBody.providerWallet && rawBody.providerWallet.toLowerCase() !== sessionAddress.toLowerCase()) {
       return NextResponse.json(
