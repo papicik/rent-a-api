@@ -57,10 +57,7 @@ export function Navbar() {
             <ConnectButton
               chainStatus="none"
               showBalance={false}
-              accountStatus={{
-                smallScreen: 'avatar',
-                largeScreen: 'full',
-              }}
+              accountStatus="address"
             />
           </div>
 
