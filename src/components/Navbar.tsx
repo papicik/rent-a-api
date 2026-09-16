@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Key } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -22,8 +21,12 @@ export function Navbar() {
         {/* Left: Brand Robinhood Leaf/Key Icon and "RENT an API" */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full bg-[#CDFF00]/10 border border-[#CDFF00]/30 flex items-center justify-center text-[#CDFF00] group-hover:border-[#CDFF00] group-hover:bg-[#CDFF00]/20 transition-all shadow-[0_0_15px_-3px_rgba(205, 255, 0,0.25)]">
-              <Key className="w-5 h-5 text-[#CDFF00]" />
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-[#CDFF00]/40 flex items-center justify-center group-hover:border-[#CDFF00] group-hover:scale-105 transition-all shadow-[0_0_15px_-3px_rgba(205,255,0,0.25)] flex-shrink-0 bg-white">
+              <img
+                src="/brand-logo.png"
+                alt="RENT an API Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-[#0D1117] group-hover:text-[#CDFF00] transition-colors">
               RENT an API
