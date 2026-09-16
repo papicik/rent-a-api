@@ -66,6 +66,32 @@ export function Hero({
               <span>Start Earning</span>
             </Link>
           </div>
+
+          {/* Token CA (Contract Address) Cell - Left Aligned */}
+          <div className="pt-2">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CBD5E1] text-xs font-mono transition-all shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#CDFF00] animate-pulse shadow-[0_0_6px_#CDFF00]" />
+              <span className="text-[#64748B] font-semibold font-sans uppercase tracking-wider text-[11px]">$RENT CA:</span>
+              <span className="text-[#0D1117] font-bold tracking-tight select-all">
+                {rentTokenAddress}
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyCa}
+                title="Copy Token CA"
+                className="p-1 rounded-lg hover:bg-[#E5E7EB] text-[#64748B] hover:text-[#0D1117] transition-colors cursor-pointer flex items-center gap-1 ml-1"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-[#000000]" />
+                    <span className="text-[10px] text-[#000000] font-sans font-bold">Copied!</span>
+                  </>
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Right: 2 Metric Cards Stacked Vertically */}
@@ -89,32 +115,6 @@ export function Hero({
               {lockedToday} Slots
             </span>
           </div>
-        </div>
-      </div>
-
-      {/* Centered Token CA Cell - Distinct Dedicated Row Aligned to the Center of the Page */}
-      <div className="relative z-10 pt-8 mt-8 border-t border-[#E5E7EB] flex justify-center items-center w-full">
-        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CDFF00]/60 text-xs font-mono transition-all shadow-sm">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#CDFF00] animate-pulse shadow-[0_0_8px_#CDFF00]" />
-          <span className="text-[#64748B] font-bold font-sans uppercase tracking-wider text-[11px]">$RENT CA:</span>
-          <span className="text-[#0D1117] font-bold tracking-tight select-all">
-            {rentTokenAddress}
-          </span>
-          <button
-            type="button"
-            onClick={handleCopyCa}
-            title="Copy Token CA"
-            className="p-1 rounded-lg hover:bg-[#E5E7EB] text-[#64748B] hover:text-[#0D1117] transition-colors cursor-pointer flex items-center gap-1 ml-1"
-          >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-[#000000]" />
-                <span className="text-[11px] text-[#000000] font-sans font-bold">Copied!</span>
-              </>
-            ) : (
-              <Copy className="w-3.5 h-3.5" />
-            )}
-          </button>
         </div>
       </div>
     </section>
