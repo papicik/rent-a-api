@@ -36,10 +36,10 @@ export function Hero({
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-12">
         {/* Left: Main Content */}
         <div className="max-w-3xl space-y-6">
-          {/* Main Headline with Robinhood Green highlight without background clipping */}
+          {/* Main Headline with original Robinhood #CDFF00 neon lime highlight */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0D1117] leading-[1.12]">
             Stop Wasting Paid API Quotas.{' '}
-            <span className="text-[#75A300]">
+            <span className="text-[#CDFF00]">
               Turn Idle Keys Into Passive $RENT.
             </span>
           </h1>
@@ -66,39 +66,13 @@ export function Hero({
               <span>Start Earning</span>
             </Link>
           </div>
-
-          {/* Token CA (Contract Address) Cell */}
-          <div className="pt-2">
-            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CBD5E1] text-xs font-mono transition-all shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#CDFF00] animate-pulse" />
-              <span className="text-[#64748B] font-semibold font-sans uppercase tracking-wider text-[11px]">$RENT CA:</span>
-              <span className="text-[#0D1117] font-bold tracking-tight select-all">
-                {rentTokenAddress}
-              </span>
-              <button
-                type="button"
-                onClick={handleCopyCa}
-                title="Copy Token CA"
-                className="p-1 rounded-lg hover:bg-[#E5E7EB] text-[#64748B] hover:text-[#0D1117] transition-colors cursor-pointer flex items-center gap-1 ml-1"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-[#75A300]" />
-                    <span className="text-[10px] text-[#75A300] font-sans font-bold">Copied!</span>
-                  </>
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Right: 2 Metric Cards Stacked Vertically */}
         <div className="flex flex-col sm:flex-row lg:flex-col gap-4 shrink-0 lg:w-72">
           <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-5 space-y-1.5 hover:border-[#CDFF00]/40 transition-colors shadow-sm">
             <div className="flex items-center gap-2 text-xs text-[#64748B] font-medium">
-              <Server className="w-4 h-4 text-[#88B300]" />
+              <Server className="w-4 h-4 text-[#CDFF00]" />
               <span>Available Slots</span>
             </div>
             <span className="text-2xl sm:text-3xl font-extrabold font-mono text-[#000000] block tracking-tight">
@@ -115,6 +89,32 @@ export function Hero({
               {lockedToday} Slots
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Centered Token CA Cell - Distinct Dedicated Row Aligned to the Center of the Page */}
+      <div className="relative z-10 pt-8 mt-8 border-t border-[#E5E7EB] flex justify-center items-center w-full">
+        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CDFF00]/60 text-xs font-mono transition-all shadow-sm">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#CDFF00] animate-pulse shadow-[0_0_8px_#CDFF00]" />
+          <span className="text-[#64748B] font-bold font-sans uppercase tracking-wider text-[11px]">$RENT CA:</span>
+          <span className="text-[#0D1117] font-bold tracking-tight select-all">
+            {rentTokenAddress}
+          </span>
+          <button
+            type="button"
+            onClick={handleCopyCa}
+            title="Copy Token CA"
+            className="p-1 rounded-lg hover:bg-[#E5E7EB] text-[#64748B] hover:text-[#0D1117] transition-colors cursor-pointer flex items-center gap-1 ml-1"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-[#000000]" />
+                <span className="text-[11px] text-[#000000] font-sans font-bold">Copied!</span>
+              </>
+            ) : (
+              <Copy className="w-3.5 h-3.5" />
+            )}
+          </button>
         </div>
       </div>
     </section>

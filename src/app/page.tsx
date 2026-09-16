@@ -86,7 +86,7 @@ export default function HomePage() {
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0D1117] tracking-tight leading-snug">
               Idle capacity on one side. Overpriced APIs on the other.{' '}
-              <span className="text-[#75A300]">
+              <span className="text-[#CDFF00]">
                 We just connected them.
               </span>
             </h2>
