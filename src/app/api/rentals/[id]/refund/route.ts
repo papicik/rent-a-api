@@ -15,7 +15,7 @@ interface RouteContext {
 const PLATFORM_OWNER_ADDRESS = (
   process.env.OWNER_ADDRESS ||
   process.env.ADMIN_ADDRESS ||
-  '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
+  '0x6e7474081a324eef988b7390354a15ec317be34f'
 ).toLowerCase();
 
 export async function POST(request: NextRequest, { params }: RouteContext) {
