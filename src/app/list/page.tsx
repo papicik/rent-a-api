@@ -124,6 +124,54 @@ export default function ListApiPage() {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Form Inputs */}
           <div className="lg:col-span-2 space-y-6">
+            {/* API Key Vault Input - Placed First for Instant Auto-Detection */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
+                  Provider API Key
+                </label>
+                <span className="text-[11px] font-mono text-[#000000] flex items-center gap-1">
+                  <Lock className="w-3 h-3 text-[#CDFF00]" />
+                  AES-256-GCM Encrypted
+                </span>
+              </div>
+
+              <div className="relative">
+                <input
+                  type={showApiKey ? 'text' : 'password'}
+                  value={apiKey}
+                  onChange={(e) => handleApiKeyChange(e.target.value)}
+                  placeholder="Paste your API key (e.g. AQ..., AIzaSy..., sk-ant-..., sk-proj-...)"
+                  className="w-full pl-4 pr-11 py-3 rounded-2xl bg-white border border-[#E5E7EB] text-[#0D1117] text-xs sm:text-sm font-mono focus:outline-none focus:border-[#CDFF00] transition-colors shadow-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0D1117] cursor-pointer"
+                >
+                  {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {detectedProvider && (
+                <div className="flex items-center gap-2 p-2.5 rounded-2xl bg-[#CDFF00]/15 border border-[#CDFF00]/40 text-xs text-[#0D1117] font-medium transition-all">
+                  <Sparkles className="w-4 h-4 text-[#759e00] shrink-0" />
+                  <span>
+                    Detected provider: <strong>{detectedProvider}</strong>. Automatically selected <strong>{currentModel.name}</strong>!
+                  </span>
+                </div>
+              )}
+
+              {apiKey && (
+                <div className="text-[11px] font-mono text-[#64748B] flex items-center gap-2 pt-1">
+                  <span>Public Snippet:</span>
+                  <span className="text-[#000000] bg-[#F8FAFC] px-2 py-0.5 rounded-full border border-[#E5E7EB]">
+                    {maskApiKey(apiKey)}
+                  </span>
+                </div>
+              )}
+            </div>
+
             {/* Model Catalog Selection */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -170,54 +218,6 @@ export default function ListApiPage() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* API Key Vault Input */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wider block">
-                  Provider API Key
-                </label>
-                <span className="text-[11px] font-mono text-[#000000] flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-[#CDFF00]" />
-                  AES-256-GCM Encrypted
-                </span>
-              </div>
-
-              <div className="relative">
-                <input
-                  type={showApiKey ? 'text' : 'password'}
-                  value={apiKey}
-                  onChange={(e) => handleApiKeyChange(e.target.value)}
-                  placeholder="Paste your API key (e.g. AQ..., AIzaSy..., sk-ant-..., sk-proj-...)"
-                  className="w-full pl-4 pr-11 py-3 rounded-2xl bg-white border border-[#E5E7EB] text-[#0D1117] text-xs sm:text-sm font-mono focus:outline-none focus:border-[#CDFF00] transition-colors shadow-sm"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowApiKey(!showApiKey)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-[#0D1117] cursor-pointer"
-                >
-                  {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-
-              {detectedProvider && (
-                <div className="flex items-center gap-2 p-2.5 rounded-2xl bg-[#CDFF00]/15 border border-[#CDFF00]/40 text-xs text-[#0D1117] font-medium transition-all">
-                  <Sparkles className="w-4 h-4 text-[#759e00] shrink-0" />
-                  <span>
-                    Detected provider: <strong>{detectedProvider}</strong>. Automatically selected <strong>{currentModel.name}</strong>!
-                  </span>
-                </div>
-              )}
-
-              {apiKey && (
-                <div className="text-[11px] font-mono text-[#64748B] flex items-center gap-2 pt-1">
-                  <span>Public Snippet:</span>
-                  <span className="text-[#000000] bg-[#F8FAFC] px-2 py-0.5 rounded-full border border-[#E5E7EB]">
-                    {maskApiKey(apiKey)}
-                  </span>
-                </div>
-              )}
             </div>
           </div>
 

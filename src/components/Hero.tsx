@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, ShieldCheck, Coins, Server } from 'lucide-react';
+import { ArrowRight, Lock, Server } from 'lucide-react';
 
 interface HeroProps {
   availableSlots?: number;
@@ -19,83 +19,60 @@ export function Hero({
       {/* Subtle Robinhood Ambient Lighting */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#CDFF00]/[0.05] rounded-full blur-3xl pointer-events-none -z-10" />
 
-      <div className="relative z-10 max-w-4xl space-y-7">
-        {/* Top Robinhood Capsule Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#CDFF00]/10 border border-[#CDFF00]/25 text-[#000000] text-xs font-semibold tracking-tight">
-          <span className="w-2 h-2 rounded-full bg-[#CDFF00] animate-pulse" />
-          <span>Robinhood Chain L2 • Non-Custodial Smart Escrow • 0% Platform Fee</span>
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-12">
+        {/* Left: Main Content */}
+        <div className="max-w-3xl space-y-6">
+          {/* Main Headline with Robinhood Green highlight */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0D1117] leading-[1.12]">
+            Stop Wasting Paid API Quotas.{' '}
+            <span className="text-[#CDFF00] bg-white">
+              Turn Idle Keys Into Passive $RENT.
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-2xl font-normal tracking-tight">
+            Millions of enterprise AI credits expire unused every month. RENT a API unlocks that trapped compute: Key holders earn automated income, while builders rent dedicated daily access up to 50% below retail.
+          </p>
+
+          {/* CTAs - Signature Capsule Pills */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/marketplace"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#CDFF00] hover:bg-[#BCE600] text-black font-bold text-sm shadow-[0_0_20px_-3px_rgba(205, 255, 0,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            >
+              <span>Explore the Marketplace</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              href="/list"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#F8FAFC] hover:bg-[#F1F5F9] border border-[#E5E7EB] hover:border-[#CBD5E1] text-[#0D1117] font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-sm"
+            >
+              <span>Start Earning</span>
+            </Link>
+          </div>
         </div>
 
-        {/* Main Headline with Robinhood Green highlight */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0D1117] leading-[1.12]">
-          Stop Wasting Paid API Quotas.{' '}
-          <span className="text-[#CDFF00] bg-white">
-            Turn Idle Keys Into Passive $RENT.
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-base sm:text-lg text-[#64748B] leading-relaxed max-w-3xl font-normal tracking-tight">
-          Millions of enterprise AI credits expire unused every month. RENT a API unlocks that trapped compute: Key holders earn automated income, while builders rent dedicated daily access up to 50% below retail.
-        </p>
-
-        {/* CTAs - Signature Capsule Pills */}
-        <div className="flex flex-wrap items-center gap-4 pt-2">
-          <Link
-            href="/marketplace"
-            className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#CDFF00] hover:bg-[#BCE600] text-black font-bold text-sm shadow-[0_0_20px_-3px_rgba(205, 255, 0,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-          >
-            <span>Explore the Marketplace</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-
-          <Link
-            href="/list"
-            className="flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#F8FAFC] hover:bg-[#F1F5F9] border border-[#E5E7EB] hover:border-[#CBD5E1] text-[#0D1117] font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-sm"
-          >
-            <span>Start Earning</span>
-          </Link>
-        </div>
-
-        {/* 4 Minimalist Financial Metric Cards with #E5E7EB Borders */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-[#E5E7EB]">
-          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-4 space-y-1 hover:border-[#CDFF00]/40 transition-colors">
-            <div className="flex items-center gap-1.5 text-xs text-[#64748B] font-medium">
-              <Server className="w-3.5 h-3.5 text-[#CDFF00]" />
+        {/* Right: 2 Metric Cards Stacked Vertically */}
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-4 shrink-0 lg:w-72">
+          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-5 space-y-1.5 hover:border-[#CDFF00]/40 transition-colors shadow-sm">
+            <div className="flex items-center gap-2 text-xs text-[#64748B] font-medium">
+              <Server className="w-4 h-4 text-[#88B300]" />
               <span>Available Slots</span>
             </div>
-            <span className="text-2xl font-extrabold font-mono text-[#CDFF00] mt-1 block tracking-tight">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-[#000000] block tracking-tight">
               {availableSlots} Active
             </span>
           </div>
 
-          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-4 space-y-1 hover:border-[#FF5000]/40 transition-colors">
-            <div className="flex items-center gap-1.5 text-xs text-[#64748B] font-medium">
-              <Lock className="w-3.5 h-3.5 text-[#FF5000]" />
+          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-5 space-y-1.5 hover:border-[#FF5000]/40 transition-colors shadow-sm">
+            <div className="flex items-center gap-2 text-xs text-[#64748B] font-medium">
+              <Lock className="w-4 h-4 text-[#FF5000]" />
               <span>Locked Today</span>
             </div>
-            <span className="text-2xl font-extrabold font-mono text-[#FF5000] mt-1 block tracking-tight">
+            <span className="text-2xl sm:text-3xl font-extrabold font-mono text-[#FF5000] block tracking-tight">
               {lockedToday} Slots
-            </span>
-          </div>
-
-          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-4 space-y-1 hover:border-[#CBD5E1] transition-colors">
-            <div className="flex items-center gap-1.5 text-xs text-[#64748B] font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#0D1117]" />
-              <span>Isolation Model</span>
-            </div>
-            <span className="text-lg sm:text-xl font-bold font-mono text-[#0D1117] mt-1 block tracking-tight">
-              24H Single-Tenant
-            </span>
-          </div>
-
-          <div className="rounded-2xl bg-[#F8FAFC] border border-[#E5E7EB] p-4 space-y-1 hover:border-[#CBD5E1] transition-colors">
-            <div className="flex items-center gap-1.5 text-xs text-[#64748B] font-medium">
-              <Coins className="w-3.5 h-3.5 text-[#0D1117]" />
-              <span>Settlement Layer</span>
-            </div>
-            <span className="text-lg sm:text-xl font-bold font-mono text-[#0D1117] mt-1 block tracking-tight">
-              Native $RENT
             </span>
           </div>
         </div>
